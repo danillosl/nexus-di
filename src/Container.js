@@ -1,4 +1,4 @@
-import CONSTANTS from "./Constants";
+const CONSTANTS = require("./Constants");
 
 class Container {
   constructor() {
@@ -26,4 +26,4 @@ class Container {
   }
 }
 
-export default new Container();
+module.exports = new Container();

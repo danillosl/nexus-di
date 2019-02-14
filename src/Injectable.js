@@ -1,14 +1,9 @@
-import container from "./Container";
-import UUID from "./UUID";
-import Wrapper from "./Wrapper";
-import CONSTANTS from "./Constants";
+const container = require("./Container");
+const Wrapper = require("./Wrapper");
+const CONSTANTS = require("./Constants");
+const UUID = require("./UUID");
 
-const DEFAULT_CONFIG = {
-  inject: [],
-  provider: c => c
-};
-
-let Injectable = ({ inject, provider } = DEFAULT_CONFIG) => {
+let Injectable = ({ inject = [], provider = c => c } = {}) => {
   return target => {
     const clazz = Wrapper(target, inject);
 
@@ -17,14 +12,20 @@ let Injectable = ({ inject, provider } = DEFAULT_CONFIG) => {
       id: UUID()
     };
 
+    Object.defineProperty(clazz, "name", {
+      value: `${CONSTANTS.WRAPPED_CLASS_PREFIX}_${target.name}`
+    });
+
     container.register(
       clazz[CONSTANTS.CLASS_METADATA_NAME].id,
       clazz,
       provider
     );
 
+    window.clazz = clazz;
+
     return clazz;
   };
 };
 
-export default Injectable;
+module.exports = Injectable;

@@ -1,14 +1,11 @@
-import container from "./Container";
-import CONSTANTS from "./Constants";
+const container = require("./Container");
+const CONSTANTS = require("./Constants");
 
-export default function Wrapper(target, inject) {
+function Wrapper(target, inject) {
   return class extends target {
     constructor(...args) {
       super(...args);
-      populateInjectedFields(inject);
-      Object.defineProperty(this, "name", {
-        value: `${CONSTANTS.WRAPPED_CLASS_PREFIX}_${target.name}`
-      });
+      populateInjectedFields.call(this, inject);
     }
   };
 }
@@ -23,3 +20,5 @@ function populateInjectedFields(inject) {
     });
   });
 }
+
+module.exports = Wrapper;

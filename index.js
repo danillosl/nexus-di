@@ -1,3 +1,4 @@
-import container from "./Container";
+const container = require("./src/Container");
+const Injectable = require("./src/Injectable");
 
-export default container;
+module.exports = {container, Injectable};
