@@ -1,12 +1,27 @@
 {
-  "name": "singularity",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "nexus-di",
+  "version": "0.1.1",
+  "description": "dependency injection in JavaScript without tears.",
+  "author": {
+    "name": "Danillo Lisboa",
+    "email": "danillosl@gmail.com"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danillosl/nexus-di"
+  },
+  "main": "index.js",
+  "keywords": [
+    "dependency",
+    "injection",
+    "container",
+    "ioc",
+    "inversion",
+    "inversion",
+    "control"
+  ],
+  "license": "MIT"
 }
