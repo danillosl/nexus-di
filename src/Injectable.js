@@ -1,30 +1,24 @@
 const container = require("./Container");
-const Wrapper = require("./Wrapper");
-const CONSTANTS = require("./Constants");
-const UUID = require("./UUID");
+const createProxy = require("./CreateProxy");
+const Scopes = require("./Scopes");
+const InjectableFactory = require("./InjectableFactory");
 
-let Injectable = ({ inject = [], provider = c => c } = {}) => {
+let Injectable = ({
+  inject = [],
+  provider = c => c,
+  scope = Scopes.PROTOTYPE
+} = {}) => {
   return target => {
-    const clazz = Wrapper(target, inject);
+    const proxy = createProxy(target, inject);
 
-    clazz[CONSTANTS.CLASS_METADATA_NAME] = {
-      name: target.name,
-      id: UUID()
-    };
-
-    Object.defineProperty(clazz, "name", {
-      value: `${CONSTANTS.WRAPPED_CLASS_PREFIX}_${target.name}`
-    });
-
-    container.register(
-      clazz[CONSTANTS.CLASS_METADATA_NAME].id,
-      clazz,
-      provider
+    let injectableFactory = new InjectableFactory(
+      proxy,
+      provider,
+      scope,
+      container
     );
-
-    window.clazz = clazz;
-
-    return clazz;
+    container.register(target, injectableFactory);
+    return target;
   };
 };
 

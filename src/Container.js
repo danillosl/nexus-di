@@ -1,28 +1,19 @@
-const CONSTANTS = require("./Constants");
-
 class Container {
   constructor() {
-    this.services = {};
+    this.services = new Map();
   }
 
-  register(componentID, clazz, provider) {
-    Object.defineProperty(this, componentID, {
-      get: () => {
-        if (!this.services.hasOwnProperty(componentID)) {
-          this.services[componentID] = provider(clazz, this);
-        }
-
-        return this.services[componentID];
-      },
-      configurable: true,
-      enumerable: true
-    });
-
+  register(clazz, injectableFactory) {
+    this.services.set(clazz, injectableFactory);
     return this;
   }
 
   getInstance(clazz) {
-    return this[clazz[CONSTANTS.CLASS_METADATA_NAME].id];
+    return this.services.get(clazz).getInstance();
+  }
+
+  setProvider(clazz, provider) {
+    this.services.get(clazz).setProvider(provider);
   }
 }
 

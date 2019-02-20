@@ -1,7 +1,6 @@
 const container = require("./Container");
-const CONSTANTS = require("./Constants");
 
-function Wrapper(target, inject) {
+function createProxy(target, inject) {
   return class extends target {
     constructor(...args) {
       super(...args);
@@ -12,13 +11,12 @@ function Wrapper(target, inject) {
 
 function populateInjectedFields(inject) {
   inject.forEach(dependency => {
-    const metadata = dependency[CONSTANTS.CLASS_METADATA_NAME];
-    Object.defineProperty(this, metadata.name, {
-      get: () => container[metadata.id],
+    Object.defineProperty(this, dependency.name, {
+      get: () => container.getInstance(dependency),
       configurable: true,
       enumerable: true
     });
   });
 }
 
-module.exports = Wrapper;
+module.exports = createProxy;
