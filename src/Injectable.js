@@ -11,13 +11,13 @@ let Injectable = ({
   return target => {
     const proxy = createProxy(target, inject);
 
-    let injectableFactory = new InjectableFactory(
+    const injectableFactory = new InjectableFactory(
       proxy,
       provider,
       scope,
       container
     );
-    container.register(target, injectableFactory);
+    container._register(target, injectableFactory);
     return target;
   };
 };

@@ -1,6 +1,6 @@
 {
   "name": "nexus-di",
-  "version": "0.1.1",
+  "version": "0.2.2",
   "description": "dependency injection in JavaScript without tears.",
   "author": {
     "name": "Danillo Lisboa",
@@ -19,7 +19,6 @@
     "injection",
     "container",
     "ioc",
-    "inversion",
     "inversion",
     "control"
   ],

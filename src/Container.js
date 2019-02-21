@@ -1,9 +1,22 @@
+const InjectableFactory = require("./InjectableFactory");
+
 class Container {
   constructor() {
     this.services = new Map();
   }
 
-  register(clazz, injectableFactory) {
+  _register(clazz, injectableFactory) {
+    this.services.set(clazz, injectableFactory);
+    return this;
+  }
+
+  register(clazz, provider, scope) {
+    const injectableFactory = new InjectableFactory(
+      clazz,
+      provider,
+      scope,
+      this
+    );
     this.services.set(clazz, injectableFactory);
     return this;
   }
@@ -13,7 +26,8 @@ class Container {
   }
 
   setProvider(clazz, provider) {
-    this.services.get(clazz).setProvider(provider);
+    this.services.get(clazz).provider = provider;
+    return this;
   }
 }
 

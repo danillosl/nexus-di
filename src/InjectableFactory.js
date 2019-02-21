@@ -1,7 +1,7 @@
 const Scopes = require("./Scopes");
 
 class InjectableFactory {
-  constructor(proxy, provider, scope, container) {
+  constructor(proxy, provider, scope = Scopes.PROTOTYPE, container) {
     this.proxy = proxy;
     this._provider = provider;
     this.scope = scope;
