@@ -1,22 +1,20 @@
-const container = require("./Container");
-
-function createProxy(target, inject) {
+function createProxy(target, inject, container) {
   return class extends target {
     constructor(...args) {
       super(...args);
-      populateInjectedFields.call(this, inject);
+      populateInjectableProperties.call(this, inject, container);
     }
   };
 }
 
-function populateInjectedFields(inject) {
-  inject.forEach(dependency => {
-    Object.defineProperty(this, dependency.name, {
-      get: () => container.getInstance(dependency),
+function populateInjectableProperties(inject, container) {
+  for (let key in inject) {
+    Object.defineProperty(this, key, {
+      get: () => container.getInstance(inject[key]),
       configurable: true,
       enumerable: true
     });
-  });
+  }
 }
 
 module.exports = createProxy;

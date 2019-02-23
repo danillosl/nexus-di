@@ -1,8 +1,15 @@
 const Scopes = require("./Scopes");
 
 class InjectableFactory {
-  constructor(proxy, provider, scope = Scopes.PROTOTYPE, container) {
-    this.proxy = proxy;
+  constructor(provider, scope, container) {
+    //makes shure that only the subclasses can be instantiated.
+    if (new.target === InjectableFactory) {
+      throw new TypeError("InjectableFactory cannot be instantiated");
+    }
+    //makes shure subclasses implement createInstance method
+    if (typeof this.createInstance === "undefined") {
+      throw new TypeError("Must override method createInstance");
+    }
     this._provider = provider;
     this.scope = scope;
     this.container = container;
@@ -10,14 +17,13 @@ class InjectableFactory {
   }
 
   getInstance() {
-    window.injectable = this;
     switch (this.scope) {
       case Scopes.PROTOTYPE:
-        return this._provider(this.proxy, this.container);
+        return this.createInstance();
 
       case Scopes.SINGLETON:
         if (!this.singletonInstance) {
-          this.singletonInstance = this._provider(this.proxy, this.container);
+          this.singletonInstance = this.createInstance();
         }
         return this.singletonInstance;
 
