@@ -1,9 +1,8 @@
 const container = require("./Container");
 
-let Injectable = (classConfig = {}) => {
+let Injectable = (config = {}) => {
   return target => {
-    classConfig.target = target;
-    container.register(classConfig);
+    container.register(target, config);
     return target;
   };
 };

@@ -8,12 +8,10 @@ class Container {
     this.services = new Map();
   }
 
-  register({
+  register(
     target,
-    inject = {},
-    provider = p => new p(),
-    scope = SCOPES.PROTOTYPE
-  }) {
+    { inject = {}, provider = p => new p(), scope = SCOPES.PROTOTYPE }
+  ) {
     const proxy = createProxy(target, inject, this);
     const injectableFactory = new InjectableClassFactory(
       proxy,
