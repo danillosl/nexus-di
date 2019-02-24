@@ -1,6 +1,6 @@
 {
   "name": "nexus-di",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "dependency injection in JavaScript without tears.",
   "author": {
     "name": "Danillo Lisboa",
