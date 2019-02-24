@@ -8,9 +8,21 @@ function createProxy(target, inject, container) {
 }
 
 function populateInjectableProperties(inject, container) {
+  Object.defineProperty(this, "NEXUS_DI_DEPENDENCIES", {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: {}
+  });
+
   for (let key in inject) {
     Object.defineProperty(this, key, {
-      get: () => container.getInstance(inject[key]),
+      get: () => {
+        if (!this.NEXUS_DI_DEPENDENCIES[key]) {
+          this.NEXUS_DI_DEPENDENCIES[key] = container.getInstance(inject[key]);
+        }
+        return this.NEXUS_DI_DEPENDENCIES[key];
+      },
       configurable: true,
       enumerable: true
     });
