@@ -193,4 +193,5 @@ samurai fighting with katana and shield that gives 15 points of armor
 For more on how to use nexus-di visit the following projects:
 
 [nexus-di-basic-react-example](https://github.com/danillosl/nexus-di-basic-react-example) on how to use nexus-di with react and redux.
+
 [nexus-di-basic-node-example](https://github.com/danillosl/nexus-di-basic-node-example) on how to use nexus-di with node.
